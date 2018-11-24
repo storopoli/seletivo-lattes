@@ -10,9 +10,9 @@ from time import sleep
 #coluna 0 e link lattes
 #coluna 1 e PPG ex GEAS
 #caso tenha um PPG com M e D colocar PPG-M ou PPG-D ex PPGA-D
-pd_lattes = pd.read_excel('listalattes.xlsx', header= None, index_col= None)   
-list_lattes = pd_lattes[0]
-PPG = pd_lattes[1]
+lattes_df = pd.read_excel('listalattes.xlsx', header= None, index_col= None) 
+lattes_df.columns = ['link_lattes','PPG']  
+list_lattes = lattes_df['link_lattes']
 print('Number of total CVs: ', len(list_lattes))
 
 seletivo_df = pd.DataFrame()
@@ -49,8 +49,6 @@ for row in list_lattes:
         prod += 1
     new_df = pd.DataFrame(
     {'nome': name,
-     'cv_lattes': list_lattes,
-     'PPG': PPG,
      'ultima_atualizacao': ultima_atualizacao,
      'endereco_prof': endereco_prof,
      'ano_ultima_formacao': ano_ultima_formacao,
@@ -61,7 +59,7 @@ for row in list_lattes:
     }, index=[0])
     seletivo_df = seletivo_df.append(new_df, ignore_index=True)
     sleep(1) #esperar 1 segundo para cada requisicao
-
+seletivo_df = pd.concat([lattes_df, seletivo_df], axis=1, ignore_index=True)
 #exportar para Excel XLSX
 seletivo_df.to_excel('seletivo_lattes.xlsx',index=False)
 print('Done! You may now open the file seletivo_lattes.xlsx')
