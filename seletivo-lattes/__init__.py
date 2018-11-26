@@ -60,6 +60,12 @@ for row in list_lattes:
     seletivo_df = seletivo_df.append(new_df, ignore_index=True)
     sleep(1) #esperar 1 segundo para cada requisicao
 seletivo_df = pd.concat([lattes_df, seletivo_df], axis=1, ignore_index=True)
+#arrumar colnames
+seletivo_df.columns = ['link_lattes','PPG',
+                       'nome','ultima_atualizacao',
+                       'endereco_prof','ano_ultima_formacao',
+                       'formacao_titulo','formacao_ies',
+                       'ultimo_vinculo_ies','prod_artigos_completos']
 #exportar para Excel XLSX
 seletivo_df.to_excel('seletivo_lattes.xlsx',index=False)
 print('Done! You may now open the file seletivo_lattes.xlsx')
